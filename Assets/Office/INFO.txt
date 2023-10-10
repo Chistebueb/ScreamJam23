@@ -1,0 +1,8 @@
+The Package contains a handful collection of assets and props to create your own and unique office environment.
+Package Info:
+	Prefab Count:72
+	Triangles: 1.500 Average (Up to 10.000)
+	Textures: 2K Average (Up to 4K)
+	Materials: All materials use Unity's Build-in Shaders
+	Colliders: All prefabs have mesh colliders
+
