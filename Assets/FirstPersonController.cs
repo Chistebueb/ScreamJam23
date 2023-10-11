@@ -20,7 +20,12 @@ public class FirstPersonController : MonoBehaviour
     public float stepInterval = 0.5f;
 
     private AudioSource audioSource;
-    private float stepTimer = 0f; 
+    private float stepTimer = 0f;
+
+    public float maxVerticalAngle = 80f;
+    public float minVerticalAngle = -80f;
+
+    private float verticalRotation = 0f; 
 
     void Start()
     {
@@ -45,8 +50,12 @@ public class FirstPersonController : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
-        // Rotate the camera vertically
-        playerCamera.transform.Rotate(Vector3.left * mouseY);
+        // Calculate the new vertical rotation
+        verticalRotation -= mouseY;
+        verticalRotation = Mathf.Clamp(verticalRotation, minVerticalAngle, maxVerticalAngle);
+
+        // Apply the vertical rotation to the camera
+        playerCamera.transform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
 
         // Rotate the player horizontally
         transform.Rotate(Vector3.up * mouseX);
@@ -148,6 +157,5 @@ public class FirstPersonController : MonoBehaviour
         audioSource.clip = stepSounds[index];
         audioSource.pitch = Random.Range(0.95f, 1.05f); // Slightly alter the pitch
         audioSource.Play();
-        Debug.Log("a");
     }
 }
