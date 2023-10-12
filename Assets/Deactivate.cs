@@ -8,9 +8,22 @@ public class Deactivate : MonoBehaviour
     [SerializeField] private List<GameObject> gameObjectsToRemove;
     [SerializeField] private List<GameObject> gameObjectsToActivate;
     [SerializeField] private GameObject indicator;
+    [SerializeField] private static GameObject indicatorObject;
     private bool isTriggered = false;
 
-    void Update()
+    void Start()
+    {
+        if (indicatorObject == null && indicator != null)
+        {
+            indicatorObject = indicator;
+        }
+        else if (indicator == null && indicatorObject != null)
+        {
+            indicator = indicatorObject;
+        }
+    }
+
+        void Update()
     {
         if(isTriggered && Input.GetKeyDown(KeyCode.E))
         {
