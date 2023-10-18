@@ -14,8 +14,8 @@ public class TriggerMovement : MonoBehaviour
     private GameObject lastSpawnedObject;
     private int numOfLightBefore;
 
-    //Important! 6 is the number of lights in the first prebuilt room, and might be changed
-    int[] difference = { 6, 0};
+    //Important! 9 is the number of lights in the first prebuilt room, and might be changed
+    int[] difference = { 9, 0};
     private bool nextRoom = false;
 
     private void Start()
