@@ -9,10 +9,12 @@ public class Deactivate : MonoBehaviour
     [SerializeField] private List<GameObject> gameObjectsToActivate;
     [SerializeField] private GameObject indicator;
     [SerializeField] private static GameObject indicatorObject;
+    public static int numOfLights = 0;
     private bool isTriggered = false;
 
     void Start()
     {
+        numOfLights ++;
         if (indicatorObject == null && indicator != null)
         {
             indicatorObject = indicator;
@@ -41,6 +43,8 @@ public class Deactivate : MonoBehaviour
             {
                 go.SetActive(true);
             }
+            numOfLights --;
+            Debug.Log(numOfLights);
         }
     }
 

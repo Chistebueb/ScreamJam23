@@ -7,10 +7,16 @@ public class TriggerMovement : MonoBehaviour
     [SerializeField] private Vector3 spawnPosition;
     [SerializeField] private List<GameObject> gameObjectsToClone;
     [SerializeField] private float spaceBetween = 10f;
+    [SerializeField] private GameObject warning;
 
     private Vector3 initialPosition;
     private Vector3 offset;
     private GameObject lastSpawnedObject;
+    private int numOfLightBefore;
+
+    //Important! 6 is the number of lights in the first prebuilt room, and might be changed
+    int[] difference = { 6, 0};
+    private bool nextRoom = false;
 
     private void Start()
     {
@@ -18,16 +24,34 @@ public class TriggerMovement : MonoBehaviour
         initialPosition = transform.position;
     }
 
+    private void Update()
+    {
+        if (nextRoom)
+        {
+            nextRoom = false;
+            difference[1] = difference[0];
+            difference[0] = Deactivate.numOfLights - numOfLightBefore;
+            Debug.Log(difference[0] + difference[1]);
+            Debug.Log(difference[0] + " + " + difference[1]);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            numOfLightBefore = Deactivate.numOfLights;
+            if (Deactivate.numOfLights > difference[0] + difference[1] && difference[1] != 0)
+            {
+                warning.SetActive(true);
+            }
 
             transform.position += offset;
 
             // Clone a random object from the list
             int randomIndex = Random.Range(0, gameObjectsToClone.Count);
             GameObject selectedObject = gameObjectsToClone[randomIndex];
+            selectedObject.SetActive(true);
 
             // Set the spawn position for the first object
             if (selectedObject.name.StartsWith("r", System.StringComparison.OrdinalIgnoreCase))
@@ -45,8 +69,8 @@ public class TriggerMovement : MonoBehaviour
                 Vector3 newSpawnPosition = lastSpawnedObject.transform.position + offset;
                 lastSpawnedObject = Instantiate(selectedObject, newSpawnPosition, Quaternion.identity);
             }
-
-    
+            nextRoom = true;
+            selectedObject.SetActive(false);
         }
     }
 }
