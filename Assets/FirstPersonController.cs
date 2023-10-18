@@ -155,7 +155,7 @@ public class FirstPersonController : MonoBehaviour
     {
         int index = Random.Range(0, stepSounds.Length); // Choose a random step sound
         audioSource.clip = stepSounds[index];
-        audioSource.pitch = Random.Range(0.95f, 1.05f); // Slightly alter the pitch
+        audioSource.pitch = Random.Range(0.8f, 1.2f); 
         audioSource.Play();
     }
 }

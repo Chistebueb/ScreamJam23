@@ -11,6 +11,7 @@ public class Deactivate : MonoBehaviour
     [SerializeField] private static GameObject indicatorObject;
     public static int numOfLights = 0;
     private bool isTriggered = false;
+    private AudioSource audioSource;
 
     void Start()
     {
@@ -22,6 +23,12 @@ public class Deactivate : MonoBehaviour
         else if (indicator == null && indicatorObject != null)
         {
             indicator = indicatorObject;
+        }
+
+        audioSource = GetComponent<AudioSource>();
+        if (!audioSource)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
         }
     }
 
@@ -44,7 +51,7 @@ public class Deactivate : MonoBehaviour
                 go.SetActive(true);
             }
             numOfLights --;
-            Debug.Log(numOfLights);
+            PlaySound();
         }
     }
 
@@ -64,5 +71,11 @@ public class Deactivate : MonoBehaviour
             isTriggered = false;
             indicator.SetActive(false);
         }
+    }
+
+    private void PlaySound()
+    {
+        audioSource.pitch = Random.Range(0.95f, 1.05f);
+        audioSource.Play();
     }
 }
