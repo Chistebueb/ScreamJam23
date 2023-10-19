@@ -51,6 +51,7 @@ public class Deactivate : MonoBehaviour
                 go.SetActive(true);
             }
             numOfLights --;
+            Debug.Log("current lights on: " + numOfLights);
             PlaySound();
         }
     }

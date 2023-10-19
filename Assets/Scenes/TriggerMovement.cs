@@ -15,7 +15,7 @@ public class TriggerMovement : MonoBehaviour
     private int numOfLightBefore;
 
     //Important! 9 is the number of lights in the first prebuilt room, and might be changed
-    int[] difference = { 9, 0};
+    int[] difference = { 6, 0};
     private bool nextRoom = false;
 
     private void Start()
@@ -31,8 +31,8 @@ public class TriggerMovement : MonoBehaviour
             nextRoom = false;
             difference[1] = difference[0];
             difference[0] = Deactivate.numOfLights - numOfLightBefore;
-            Debug.Log(difference[0] + difference[1]);
-            Debug.Log(difference[0] + " + " + difference[1]);
+            Debug.Log("max allowed lights: " + (difference[0] + difference[1]));
+            Debug.Log("current lights on: " + Deactivate.numOfLights);
         }
     }
 
