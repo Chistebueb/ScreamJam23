@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class SelfDestruct : MonoBehaviour
 {
+    public float delay = 0.5f;
     private bool isSeen = false;
     private AudioSource audioSource;
 
@@ -21,7 +22,7 @@ public class SelfDestruct : MonoBehaviour
         if (!isSeen) // Ensure this is only triggered once
         {
             isSeen = true;
-            StartCoroutine(DestroySelfAfterDelay(0.5f));
+            StartCoroutine(DestroySelfAfterDelay(delay));
         }
     }
 
