@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Deactivate : MonoBehaviour
+public class OnTriggerOn : MonoBehaviour
 {
-
     [SerializeField] private List<GameObject> gameObjectsToRemove;
     [SerializeField] private List<GameObject> gameObjectsToActivate;
     [SerializeField] private GameObject indicator;
@@ -15,7 +14,7 @@ public class Deactivate : MonoBehaviour
 
     void Start()
     {
-        numOfLights ++;
+        numOfLights++;
         if (indicatorObject == null && indicator != null)
         {
             indicatorObject = indicator;
@@ -32,9 +31,9 @@ public class Deactivate : MonoBehaviour
         }
     }
 
-        void Update()
+    void Update()
     {
-        if(isTriggered && Input.GetKeyDown(KeyCode.E))
+        if (isTriggered && Input.GetKeyDown(KeyCode.E))
         {
             indicator.SetActive(false);
             isTriggered = false;
@@ -50,14 +49,14 @@ public class Deactivate : MonoBehaviour
             {
                 go.SetActive(true);
             }
-            numOfLights --;
+            numOfLights--;
             PlaySound();
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player") 
+        if (other.tag == "Player")
         {
             isTriggered = true;
             indicator.SetActive(true);

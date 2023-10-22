@@ -9,6 +9,7 @@ public class RandomSoundPlayer : MonoBehaviour
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        audioSource.loop = false;
         if (audioSource == null)
         {
             Debug.LogError("No AudioSource component found on this GameObject.");
@@ -28,8 +29,7 @@ public class RandomSoundPlayer : MonoBehaviour
     {
         while (true)
         {
-            // Generate a random time between 30 seconds and 3 minutes
-            float waitTime = Random.Range(30, 181);
+            float waitTime = Random.Range(20, 80);
             yield return new WaitForSeconds(waitTime);
 
             // Pick a random sound from the array

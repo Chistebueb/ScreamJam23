@@ -8,6 +8,8 @@ public class TriggerMovement : MonoBehaviour
     [SerializeField] private List<GameObject> gameObjectsToClone;
     [SerializeField] private float spaceBetween = 10f;
     [SerializeField] private GameObject warning;
+    [SerializeField] private GameObject restart;
+    private int fails = 0;
 
     private Vector3 initialPosition;
     private Vector3 offset;
@@ -26,13 +28,19 @@ public class TriggerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (fails >= 3)
+        {
+            Deactivate.numOfLights = 0;
+            restart.SetActive(true);
+            return;
+
+        }
+
         if (nextRoom)
         {
             nextRoom = false;
             difference[1] = difference[0];
             difference[0] = Deactivate.numOfLights - numOfLightBefore;
-            Debug.Log("max allowed lights: " + (difference[0] + difference[1]));
-            Debug.Log("current lights on: " + Deactivate.numOfLights);
         }
     }
 
@@ -43,7 +51,11 @@ public class TriggerMovement : MonoBehaviour
             numOfLightBefore = Deactivate.numOfLights;
             if (Deactivate.numOfLights > difference[0] + difference[1] && difference[1] != 0)
             {
-                warning.SetActive(true);
+                fails++;
+                if (fails != 3)
+                {
+                    warning.SetActive(true);
+                }
             }
 
             transform.position += offset;
@@ -51,7 +63,16 @@ public class TriggerMovement : MonoBehaviour
             // Clone a random object from the list
             int randomIndex = Random.Range(0, gameObjectsToClone.Count);
             GameObject selectedObject = gameObjectsToClone[randomIndex];
-            selectedObject.SetActive(true);
+
+            if (!canEnd())
+            {
+                while (selectedObject.name.StartsWith("l", System.StringComparison.OrdinalIgnoreCase))
+                {
+                    randomIndex = Random.Range(0, gameObjectsToClone.Count);
+                    selectedObject = gameObjectsToClone[randomIndex];
+                    Debug.Log("false worked!");
+                }
+            }
 
             // Set the spawn position for the first object
             if (selectedObject.name.StartsWith("r", System.StringComparison.OrdinalIgnoreCase))
@@ -59,6 +80,9 @@ public class TriggerMovement : MonoBehaviour
                 // Remove the cloned object from the list
                 gameObjectsToClone.RemoveAt(randomIndex);
             }
+
+            selectedObject.SetActive(true);
+
             // Set the spawn position for the first object
             if (lastSpawnedObject == null)
             {
@@ -72,5 +96,19 @@ public class TriggerMovement : MonoBehaviour
             nextRoom = true;
             selectedObject.SetActive(false);
         }
+    }
+
+    private bool canEnd()
+    {
+        bool isTrue = true;
+        foreach (GameObject x in gameObjectsToClone)
+        {
+            if(x.name.StartsWith("r", System.StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+        }
+        Debug.Log("true worked!");
+        return true;
     }
 }
